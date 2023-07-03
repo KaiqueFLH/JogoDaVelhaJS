@@ -1,30 +1,36 @@
 const quadrados = document.getElementsByClassName("quadrado");
 const tabuleiro = document.getElementById("tictactoe");
 let vezJogador = 0;
-let jogadorAtual = "";
+let jogadorAtual = "jogador1";
+
 
 for (let i = 0; i < quadrados.length; i++) {
     quadrados[i].addEventListener("click", function () {
-        if (vezJogador % 2 == 0 && !quadrados[i].classList.contains("jogador2")) {
+        if (jogadorAtual == "jogador1" && !quadrados[i].classList.contains("jogador2")) {
             quadrados[i].classList.add("jogador1");
-            jogadorAtual = "jogador1";
-            vezJogador++;
-        } else if(vezJogador % 2 != 0 && !quadrados[i].classList.contains("jogador1")) {
+
+        } else if (jogadorAtual == "jogador2" && !quadrados[i].classList.contains("jogador1")) {
             quadrados[i].classList.add("jogador2");
-            jogadorAtual = "jogador2";
-            vezJogador++;
         }
-        
 
         if (verificaGanhador(jogadorAtual)) {
-            alert(jogadorAtual + " Venceu o Jogo!");
-            reiniciaJogo();
+            quadrados[i].classList.add(jogadorAtual);
+            setTimeout(() => {
+                alert(jogadorAtual + " Venceu o Jogo!");
+                reiniciaJogo();
+            }, "100");
         }
-        else if (vezJogador === quadrados.length) {
-            alert("O Jogo Terminou em Empate!");
-            reiniciaJogo();
+        console.log(vezJogador)
+        if (vezJogador === quadrados.length-1) {
+            quadrados[i].classList.add(jogadorAtual);
+            setTimeout(() => {
+                alert("O jogo terminou em empate!");
+                reiniciaJogo();
+            }, "100");
         }
-    });
+        jogadorAtual = jogadorAtual == "jogador1" ? "jogador2" : "jogador1"
+        vezJogador++;
+    })
 }
 
 function reiniciaJogo() {
@@ -32,7 +38,7 @@ function reiniciaJogo() {
         quadrados[i].classList.remove("jogador1", "jogador2");
     }
     vezJogador = 0;
-    jogadorAtual = "";
+    jogadorAtual = "jogador1";
 
 }
 
